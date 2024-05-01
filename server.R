@@ -18,21 +18,21 @@ shinyServer(function(input, output) {
   output$p1 <- renderPlot({
     if (input$graph_type == "histogram") {
       # Histogram
-      ggplot(df_country(), aes_string(x = "input$continuous_variable")) +
+      ggplot(df_country(), aes_string(x = input$continuous_variable)) +
         geom_histogram() +  # histogram geom
         labs(
           y = "Number of People",
-          title = paste("Trend of ", "input$continuous_variable")
+          title = paste("Trend of ", input$continuous_variable)
         ) +  # labels
         facet_wrap(~prediction)    # facet by prediction
     }
     else {
       # Boxplot
-      ggplot(df_country(), aes_string(y = "input$continuous_variable")) +
+      ggplot(df_country(), aes_string(y = input$continuous_variable)) +
         geom_boxplot() +  # boxplot geom
         coord_flip() +  # flip coordinates
         labs(
-          title = paste("Trend of", "input$continuous_variable")
+          title = paste("Trend of", input$continuous_variable)
         ) +  # labels
         facet_wrap(~prediction)    # facet by prediction
     }
@@ -45,17 +45,28 @@ shinyServer(function(input, output) {
     p <- ggplot(df_country(), aes_string(x = input$categorical_variable)) +
       geom_bar() +  
       labs(
-        title = paste("Trend of", input$categorical_variable))
+        title = paste("Trend of", input$categorical_variable)) +
         # labels
-      ...    # modify theme to change text angle and legend position
+      theme(
+        element_text(angle = 45),
+        legend.position = "bottom"
+      )    # modify theme to change text angle and legend position
     
     if (input$is_stacked) {
-      p + ...  # add bar geom and use prediction as fill
+      p + 
+        geom_bar(aes_string(
+          fill = input$categorical_variable),
+          position = "stack"
+        ) +
+        facet_wrap(~prediction)
+      # add bar geom and use prediction as fill
     }
     else{
       p + 
-        ... + # add bar geom and use input$categorical_variables as fill 
-        ...   # facet by prediction
+        geom_bar(aes_string(
+          fill = input$categorical_variable
+        )) + # add bar geom and use input$categorical_variables as fill 
+        facet_wrap(~prediction)   # facet by prediction
     }
   })
 })
