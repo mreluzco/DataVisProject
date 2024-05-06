@@ -13,6 +13,7 @@ shinyUI(
     
     # TASK 2: Add first fluidRow to select input for country
     fluidRow(
+      # add select input 
       column(12, 
              wellPanel(selectInput(
                "country",
@@ -23,7 +24,6 @@ shinyUI(
                  "Mexico" = "Mexico", 
                  "Germany" = "Germany", 
                  "Phillippines" = "Phillippines"))
-               # add select input 
              ))
     ),
     
@@ -32,16 +32,17 @@ shinyUI(
       column(3, 
              wellPanel(
                p("Select a continuous variable and graph type (histogram or boxplot) to view on the right."),
+               # add radio buttons for continuous variables
                radioButtons("continuous_variable", 
                             "Select Continuous Variable", 
                             c("Age" = "age", 
                               "Hours-Per-Week" = "hours_per_week")),   
-                            # add radio buttons for continuous variables
+               # add radio buttons for chart type              
                radioButtons("graph_type", 
                             "Select Graph Type", 
                             c("Histogram" = "histogram", 
                               "Boxplot" = "boxplot")   
-                            # add radio buttons for chart type
+                            
                             )
                )),
              column(9, plotOutput("p1"))  # add plot output
@@ -52,21 +53,21 @@ shinyUI(
       column(3, 
              wellPanel(
                p("Select a categorical variable to view bar chart on the right. Use the check box to view a stacked bar chart to combine the income levels into one graph. "),
+               # add radio buttons for categorical variables
                radioButtons("categorical_variable",
                             "Select Categorical Variable",
                             c("Education" = "education", 
                               "Work-Class" = "workclass", 
                               "Sex" = "sex")),    
-                            # add radio buttons for categorical variables
+               # add check box input for stacked bar chart option
               checkboxInput("is_stacked",
                             "Stacked Bars",
-                            value = FALSE,
                             width = NULL)
-                            # add check box input for stacked bar chart option
                )
              ),
-             column(9, plotOutput("p2"))  
-             # add plot output
+      # add plot output       
+      column(9, plotOutput("p2"))  
+             
       )
     ))
   
